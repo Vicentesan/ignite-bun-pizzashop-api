@@ -11,6 +11,7 @@ export const restaurants = pgTable("restaurants", {
   managerId: text('managerId').references(() => users.id, {
     onDelete: 'set null',
   }),
+  
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
