@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "bun --watch src/http/server.ts",
-    "generate": "drizzle-kit generate:pg",
-    "migrate": "bun src/db/migrate.ts",
+    "drizzle:generate": "drizzle-kit generate:pg",
+    "drizzle:migrate": "bun src/db/migrate.ts",
+    "drizzle:studio": "bun drizzle-kit studio",
     "build": "bun build src/http/server.ts",
     "start": "NODE_ENV=production bun src/http/server.ts",
     "test": "bun test"
