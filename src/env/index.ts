@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 const envSchema = z.object({
-  DATABASE_URL: z.string()
+  DATABASE_URL: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
