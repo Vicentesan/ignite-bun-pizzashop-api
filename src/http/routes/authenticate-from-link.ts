@@ -17,15 +17,22 @@ export const authenticateFromLink = new Elysia().use(auth).get(
       },
     })
 
-    if (!authLinkFromCode) throw new Error('AuthLink not found.')
+    if (!authLinkFromCode) {
+      set.status = 400
+
+      return { message: 'AuthLink not found.' }
+    }
 
     const daysSinceAuthLinkWasCreated = dayjs().diff(
       authLinkFromCode.createdAt,
       'days',
     )
 
-    if (daysSinceAuthLinkWasCreated > 7)
-      throw new Error('AuthLink has expired, please generate a new one.')
+    if (daysSinceAuthLinkWasCreated > 7) {
+      set.status = 400
+
+      return { message: 'AuthLink has expired, please generate a new one.' }
+    }
 
     const managedRestaurant = await db.query.restaurants.findFirst({
       where(fields, operators) {
