@@ -1,14 +1,4 @@
-import nodemailer from 'nodemailer'
+import { env } from '../env'
+import { Resend } from 'resend'
 
-const account = await nodemailer.createTestAccount()
-
-export const mailer = nodemailer.createTransport({
-  host: account.smtp.host,
-  port: account.smtp.port,
-  secure: account.smtp.secure,
-  debug: true,
-  auth: {
-    user: account.user,
-    pass: account.pass,
-  },
-})
+export const resend = new Resend(env.RESEND_API_KEY)

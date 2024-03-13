@@ -3,9 +3,9 @@ import { db } from '../../db/connection'
 import { createId } from '@paralleldrive/cuid2'
 import { authLinks } from '../../db/schema'
 import { env } from '../../env'
-import { mailer } from '../../lib/mailer'
+import { resend } from '../../lib/mailer'
 
-import nodemailer from 'nodemailer'
+import { AuthenticationMagicLinkTemplate } from '../../lib/templates/authentication-magic-link'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
@@ -32,18 +32,15 @@ export const sendAuthLink = new Elysia().post(
     authLink.searchParams.set('code', authLinkCode)
     authLink.searchParams.set('redirect', env.AUTH_REDIRECT_URL)
 
-    const info = await mailer.sendMail({
-      from: {
-        name: 'PizzaShop Inc.',
-        address: 'hi@pizzashop.com',
-      },
+    await resend.emails.send({
+      from: 'Pizza Shop <onboarding@resend.dev>',
       to: email,
-      subject: 'Authenticate your account to Pizza Shop',
-      html: `<span>Use the following link to authenticate your account on Pizza Shop: <a href="${authLink.toString()}">Authenticate</a><span/>`,
-      text: `Use the following link to authenticate your account on Pizza Shop: ${authLink.toString()}`,
+      subject: '[Pizza Shop] Link para login',
+      react: AuthenticationMagicLinkTemplate({
+        userEmail: email.toLocaleLowerCase(),
+        authLink: authLink.toString(),
+      }),
     })
-
-    console.log(nodemailer.getTestMessageUrl(info))
   },
   {
     body: t.Object({
