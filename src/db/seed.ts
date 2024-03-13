@@ -4,9 +4,10 @@ import chalk from 'chalk'
 
 import { faker } from '@faker-js/faker'
 
-import { users, restaurants } from './schema'
+import { users, restaurants, authLinks } from './schema'
 import { db } from './connection'
 
+await db.delete(authLinks)
 await db.delete(users)
 await db.delete(restaurants)
 
