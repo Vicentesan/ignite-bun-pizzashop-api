@@ -11,7 +11,7 @@ export const registerRestaurant = new Elysia().post(
       .insert(users)
       .values({
         name: managerName,
-        email,
+        email: email.toLocaleLowerCase(),
         phone,
         role: 'manager',
       })
