@@ -31,8 +31,6 @@ export const getMonthRevenue = new Elysia()
       )
       .groupBy(sql`TO_CHAR(${orders.createdAt}, 'YYYY-MM')`)
 
-    console.log(monthsRevenues)
-
     const currentMonthWithYear = today.format('YYYY-MM')
     const lastMonthWithYear = lastMonth.format('YYYY-MM')
 
