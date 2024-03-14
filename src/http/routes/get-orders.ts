@@ -18,7 +18,10 @@ export const getOrders = new Elysia().use(auth).get(
     if (!restaurantId) throw new UnauthorizedError()
 
     const baseQuery = db
-      .select(orderTableColumns)
+      .select({
+        ...orderTableColumns,
+        customerName: users.name,
+      })
       .from(orders)
       .innerJoin(users, eq(orders.customerId, users.id))
       .where(

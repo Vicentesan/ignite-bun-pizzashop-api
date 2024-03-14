@@ -25,6 +25,9 @@ const app = new Elysia()
           },
         }
       }
+      case 'NOT_FOUND': {
+        return new Response(null, { status: 404 })
+      }
       default: {
         set.status = 500
 
