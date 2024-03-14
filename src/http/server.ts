@@ -7,6 +7,7 @@ import { getProfile } from './routes/get-profile'
 import { getManagedRestaurant } from './routes/get-managed-restaurant'
 import { getOrderDetails } from './routes/get-order-details'
 import { approveOrder } from './routes/approve-order'
+import { dispatchOrder } from './routes/dispatch-order'
 
 const app = new Elysia()
   .onError(({ error, code, set }) => {
@@ -40,5 +41,6 @@ const app = new Elysia()
   .use(getManagedRestaurant)
   .use(getOrderDetails)
   .use(approveOrder)
+  .use(dispatchOrder)
 
 app.listen(3333, () => console.log(' HTTP server running'))
