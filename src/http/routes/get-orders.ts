@@ -4,7 +4,7 @@ import { db } from '../../db/connection'
 import { UnauthorizedError } from '../erros/unauthorized-error'
 import { orders, users } from '../../db/schema'
 import { createSelectSchema } from 'drizzle-typebox'
-import { and, count, eq, getTableColumns, ilike } from 'drizzle-orm'
+import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
 
 const statusSchema = createSelectSchema(orders).properties.status
 const orderTableColumns = getTableColumns(orders)
@@ -39,7 +39,20 @@ export const getOrders = new Elysia().use(auth).get(
         .select()
         .from(baseQuery.as('baseQuery'))
         .offset(pageIndex * 10)
-        .limit(10),
+        .limit(10)
+        .orderBy((fields) => {
+          return [
+            sql`
+          CASE ${fields.status}
+            WHEN 'pending' THEN 1
+            WHEN 'processing' THEN 2
+            WHEN 'delivering' THEN 3
+            WHEN 'delivered' THEN 4
+            WHEN 'canceled' THEN 99
+          END`,
+            desc(fields.createdAt),
+          ]
+        }),
     ])
 
     return {
