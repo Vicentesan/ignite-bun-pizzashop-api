@@ -11,6 +11,7 @@ import { dispatchOrder } from './routes/dispatch-order'
 import { deliverOrder } from './routes/deliver-order'
 import { cancelOrder } from './routes/cancel-order'
 import { getOrders } from './routes/get-orders'
+import { getMonthRevenue } from './routes/get-month-revenue'
 
 const app = new Elysia()
   .onError(({ error, code, set }) => {
@@ -51,5 +52,6 @@ const app = new Elysia()
   .use(deliverOrder)
   .use(cancelOrder)
   .use(getOrders)
+  .use(getMonthRevenue)
 
 app.listen(3333, () => console.log(' HTTP server running'))
