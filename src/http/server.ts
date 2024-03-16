@@ -15,6 +15,7 @@ import { getMonthRevenue } from './routes/get-month-revenue'
 import { getDayOrdersAmount } from './routes/get-day-orders-amount'
 import { getMonthOrdersAmount } from './routes/get-month-orders-amount'
 import { getMonthCanceledOrdersAmount } from './routes/get-month-canceled-orders-amount'
+import { getPopularProducts } from './routes/get-popular-products'
 
 const app = new Elysia()
   .onError(({ error, code, set }) => {
@@ -59,5 +60,6 @@ const app = new Elysia()
   .use(getDayOrdersAmount)
   .use(getMonthOrdersAmount)
   .use(getMonthCanceledOrdersAmount)
+  .use(getPopularProducts)
 
 app.listen(3333, () => console.log(' HTTP server running'))
