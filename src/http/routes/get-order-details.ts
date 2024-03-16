@@ -9,9 +9,7 @@ export const getOrderDetails = new Elysia().use(auth).get(
     const { orderId } = params
     const { restaurantId } = await getCurrentUser()
 
-    if (!restaurantId) {
-      throw new UnauthorizedError()
-    }
+    if (!restaurantId) throw new UnauthorizedError()
 
     const order = await db.query.orders.findFirst({
       columns: {

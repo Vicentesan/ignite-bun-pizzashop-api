@@ -10,9 +10,7 @@ export const getPopularProducts = new Elysia()
   .get('/metrics/popular-products', async ({ getCurrentUser }) => {
     const { restaurantId } = await getCurrentUser()
 
-    if (!restaurantId) {
-      throw new UnauthorizedError()
-    }
+    if (!restaurantId) throw new UnauthorizedError()
 
     const popularProducts = await db
       .select({
