@@ -41,8 +41,11 @@ export const getOrderDetails = new Elysia().use(auth).get(
           },
         },
       },
-      where(fields, { eq }) {
-        return eq(fields.id, orderId)
+      where(fields, operators) {
+        return operators.and(
+          operators.eq(fields.id, orderId),
+          operators.eq(fields.restaurantId, restaurantId),
+        )
       },
     })
 
