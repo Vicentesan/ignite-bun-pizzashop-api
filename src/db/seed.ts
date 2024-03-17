@@ -54,7 +54,7 @@ const [manager] = await db
   .insert(users)
   .values([
     {
-      name: faker.person.fullName(),
+      name: 'Vicente Sanchez',
       email: 'vikom.sanchez@gmail.com',
       role: 'manager',
     },
@@ -73,7 +73,7 @@ const [restaurant] = await db
   .insert(restaurants)
   .values([
     {
-      name: faker.company.name(),
+      name: 'Pizza Shop',
       description: faker.lorem.paragraph(),
       managerId: manager.id,
     },
