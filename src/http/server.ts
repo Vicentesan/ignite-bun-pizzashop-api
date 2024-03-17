@@ -21,6 +21,32 @@ import { getPopularProducts } from './routes/get-popular-products'
 import { getDailyRevenueInPeriod } from './routes/get-daily-revenue-in-period'
 
 const app = new Elysia()
+  .onError(({ error, code, set }) => {
+    switch (code) {
+      case 'VALIDATION': {
+        set.status = error.status
+        return {
+          code,
+          message: 'Validation Failed',
+          error: {
+            ...error.toResponse(),
+          },
+        }
+      }
+      case 'NOT_FOUND': {
+        return new Response(null, { status: 404 })
+      }
+      default: {
+        set.status = 500
+
+        console.error(error)
+        return {
+          code,
+          message: 'Internal Server Error',
+        }
+      }
+    }
+  })
   .use(
     cors({
       credentials: true,
@@ -55,31 +81,5 @@ const app = new Elysia()
   .use(getMonthCanceledOrdersAmount)
   .use(getPopularProducts)
   .use(getDailyRevenueInPeriod)
-  .onError(({ error, code, set }) => {
-    switch (code) {
-      case 'VALIDATION': {
-        set.status = error.status
-        return {
-          code,
-          message: 'Validation Failed',
-          error: {
-            ...error.toResponse(),
-          },
-        }
-      }
-      case 'NOT_FOUND': {
-        return new Response(null, { status: 404 })
-      }
-      default: {
-        set.status = 500
-
-        console.error(error)
-        return {
-          code,
-          message: 'Internal Server Error',
-        }
-      }
-    }
-  })
 
 app.listen(3333, () => console.log(' HTTP server running'))
