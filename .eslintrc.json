@@ -1,4 +1,7 @@
 {
   "extends": ["@rocketseat/eslint-config/node", "plugin:drizzle/all"],
-  "plugins": ["drizzle"]
+  "plugins": ["drizzle"],
+  "rules": {
+    "no-unused-vars": "warn"
+  }
 }
