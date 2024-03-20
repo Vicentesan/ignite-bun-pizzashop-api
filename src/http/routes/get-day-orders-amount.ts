@@ -1,17 +1,14 @@
 import dayjs from 'dayjs'
 import { Elysia } from 'elysia'
 import { auth } from '../auth'
-import { UnauthorizedError } from '../erros/unauthorized-error'
 import { db } from '../../db/connection'
 import { orders } from '../../db/schema'
 import { and, count, eq, gte, sql } from 'drizzle-orm'
 
 export const getDayOrdersAmount = new Elysia()
   .use(auth)
-  .get('/metrics/day-orders-amount', async ({ getCurrentUser }) => {
-    const { restaurantId } = await getCurrentUser()
-
-    if (!restaurantId) throw new UnauthorizedError()
+  .get('/metrics/day-orders-amount', async ({ getManagedRestaurantId }) => {
+    const restaurantId = await getManagedRestaurantId()
 
     const today = dayjs()
     const yesterday = today.subtract(1, 'day')

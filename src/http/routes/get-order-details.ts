@@ -1,15 +1,12 @@
 import Elysia, { t } from 'elysia'
 import { auth } from '../auth'
 import { db } from '../../db/connection'
-import { UnauthorizedError } from '../erros/unauthorized-error'
 
 export const getOrderDetails = new Elysia().use(auth).get(
   '/orders/:orderId',
-  async ({ getCurrentUser, params, set }) => {
+  async ({ getManagedRestaurantId, params, set }) => {
     const { orderId } = params
-    const { restaurantId } = await getCurrentUser()
-
-    if (!restaurantId) throw new UnauthorizedError()
+    const restaurantId = await getManagedRestaurantId()
 
     const order = await db.query.orders.findFirst({
       columns: {

@@ -4,8 +4,8 @@ import { db } from '../../db/connection'
 
 export const getManagedRestaurant = new Elysia().use(auth).get(
   '/managed-restaurant',
-  async ({ getCurrentUser }) => {
-    const { restaurantId } = await getCurrentUser()
+  async ({ getManagedRestaurantId }) => {
+    const restaurantId = await getManagedRestaurantId()
 
     if (!restaurantId) throw new Error('User is not a restaurant manager.')
 

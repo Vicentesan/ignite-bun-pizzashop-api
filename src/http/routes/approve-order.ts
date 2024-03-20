@@ -7,11 +7,9 @@ import { eq } from 'drizzle-orm'
 
 export const approveOrder = new Elysia().use(auth).patch(
   '/orders/:orderId/approve',
-  async ({ getCurrentUser, params, set }) => {
+  async ({ getManagedRestaurantId, params, set }) => {
     const { orderId } = params
-    const { restaurantId } = await getCurrentUser()
-
-    if (!restaurantId) throw new UnauthorizedError()
+    const restaurantId = await getManagedRestaurantId()
 
     const order = await db.query.orders.findFirst({
       where(fields, operators) {

@@ -1,7 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { auth } from '../auth'
 import { db } from '../../db/connection'
-import { UnauthorizedError } from '../erros/unauthorized-error'
 import { orders, users } from '../../db/schema'
 import { createSelectSchema } from 'drizzle-typebox'
 import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
@@ -11,11 +10,9 @@ const orderTableColumns = getTableColumns(orders)
 
 export const getOrders = new Elysia().use(auth).get(
   '/orders',
-  async ({ getCurrentUser, query }) => {
+  async ({ getManagedRestaurantId, query }) => {
     const { customerName, orderId, status, pageIndex } = query
-    const { restaurantId } = await getCurrentUser()
-
-    if (!restaurantId) throw new UnauthorizedError()
+    const restaurantId = await getManagedRestaurantId()
 
     const baseQuery = db
       .select({

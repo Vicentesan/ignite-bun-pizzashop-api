@@ -1,16 +1,13 @@
 import { Elysia } from 'elysia'
 import { auth } from '../auth'
-import { UnauthorizedError } from '../erros/unauthorized-error'
 import { sum, eq, desc } from 'drizzle-orm'
 import { db } from '../../db/connection'
 import { products, orderItems, orders } from '../../db/schema'
 
 export const getPopularProducts = new Elysia()
   .use(auth)
-  .get('/metrics/popular-products', async ({ getCurrentUser }) => {
-    const { restaurantId } = await getCurrentUser()
-
-    if (!restaurantId) throw new UnauthorizedError()
+  .get('/metrics/popular-products', async ({ getManagedRestaurantId }) => {
+    const restaurantId = await getManagedRestaurantId()
 
     const popularProducts = await db
       .select({
