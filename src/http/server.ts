@@ -20,10 +20,18 @@ import { getMonthCanceledOrdersAmount } from './routes/get-month-canceled-orders
 import { getPopularProducts } from './routes/get-popular-products'
 import { getDailyRevenueInPeriod } from './routes/get-daily-revenue-in-period'
 import { updateProfile } from './routes/update-profile'
+import { UnauthorizedError } from './erros/unauthorized-error'
 
 const app = new Elysia()
+  .error({
+    UNAUTHORIZED: UnauthorizedError,
+  })
   .onError(({ error, code, set }) => {
     switch (code) {
+      case 'UNAUTHORIZED': {
+        set.status = 401
+        return { code, message: error.message }
+      }
       case 'VALIDATION': {
         set.status = error.status
         return {
