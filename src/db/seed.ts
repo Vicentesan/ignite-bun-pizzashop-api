@@ -119,7 +119,7 @@ type OrderInsert = typeof orders.$inferInsert
 const orderItemsToInsert: OrderItemInset[] = []
 const ordersToInsert: OrderInsert[] = []
 
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 500; i++) {
   const orderId = createId()
   const orderProducts = faker.helpers.arrayElements(availableProducts, {
     min: 1,
@@ -160,7 +160,7 @@ for (let i = 0; i < 200; i++) {
 await db.insert(orders).values(ordersToInsert)
 await db.insert(orderItems).values(orderItemsToInsert)
 
-console.log(chalk.yellow('200 Orders were created successfully.'))
+console.log(chalk.yellow('500 Orders were created successfully.'))
 
 console.log(chalk.greenBright('Database seeded successfully.'))
 

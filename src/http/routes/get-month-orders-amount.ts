@@ -40,13 +40,12 @@ export const getMonthOrdersAmount = new Elysia()
 
     const diffFromLastMonth =
       currentMonthOrdersAmount && lastMonthOrdersAmount
-        ? (currentMonthOrdersAmount.amount * 100) / lastMonthOrdersAmount.amount
-        : null
+        ? (currentMonthOrdersAmount.amount - lastMonthOrdersAmount.amount) /
+          lastMonthOrdersAmount.amount
+        : 0
 
     return {
       amount: currentMonthOrdersAmount ? currentMonthOrdersAmount.amount : 0,
-      diffFromLastMonth: diffFromLastMonth
-        ? Number((diffFromLastMonth - 100).toFixed(2))
-        : 0,
+      diffFromLastMonth: Number((diffFromLastMonth * 100).toFixed(2)),
     }
   })

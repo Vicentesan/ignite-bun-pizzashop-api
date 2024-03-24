@@ -40,13 +40,12 @@ export const getDayOrdersAmount = new Elysia()
 
     const diffFromYesterday =
       todayOrdersAmount && yesterdayOrdersAmount
-        ? (todayOrdersAmount.amount * 100) / yesterdayOrdersAmount.amount
-        : null
+        ? (todayOrdersAmount.amount - yesterdayOrdersAmount.amount) /
+          yesterdayOrdersAmount.amount
+        : 0
 
     return {
       amount: todayOrdersAmount ? todayOrdersAmount.amount : 0,
-      diffFromYesterday: diffFromYesterday
-        ? Number((diffFromYesterday - 100).toFixed(2))
-        : 0,
+      diffFromYesterday: Number((diffFromYesterday * 100).toFixed(2)),
     }
   })
