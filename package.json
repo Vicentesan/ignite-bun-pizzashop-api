@@ -11,6 +11,7 @@
     "drizzle:generate": "drizzle-kit generate:pg",
     "drizzle:migrate": "bun src/db/migrate.ts",
     "drizzle:seed": "bun src/db/seed.ts",
+    "drizzle:make-recent-orders": "bun src/db/make-recent-orders.ts",
     "drizzle:studio": "bun drizzle-kit studio"
   },
   "dependencies": {
